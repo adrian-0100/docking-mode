@@ -36,7 +36,7 @@ namespace DockingMode
         {
             try
             {
-                // Cambiar la acción al cerrar la tapa cuando está en corriente alterna
+                // Change the action when closing the lid: when plugged into AC
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = "powercfg.exe",
@@ -46,7 +46,7 @@ namespace DockingMode
                     CreateNoWindow = true
                 });
 
-                // Cambiar la acción al cerrar la tapa cuando está en batería
+                // Change the action when closing the lid: when on battery
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = "powercfg.exe",
@@ -56,7 +56,7 @@ namespace DockingMode
                     CreateNoWindow = true
                 });
 
-                // Aplicar la configuración
+                // Apply the changes
                 Process.Start(new ProcessStartInfo
                 {
                     FileName = "powercfg.exe",
