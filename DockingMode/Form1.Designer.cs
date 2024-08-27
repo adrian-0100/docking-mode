@@ -34,6 +34,7 @@
             contextMenuStrip1 = new ContextMenuStrip(components);
             activateDockingModeToolStripMenuItem = new ToolStripMenuItem();
             quitToolStripMenuItem = new ToolStripMenuItem();
+            disableDockingModeToolStripMenuItem = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -47,24 +48,31 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { activateDockingModeToolStripMenuItem, quitToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { activateDockingModeToolStripMenuItem, disableDockingModeToolStripMenuItem, quitToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(271, 68);
+            contextMenuStrip1.Size = new Size(266, 133);
             contextMenuStrip1.Opening += contextMenuStrip1_Opening;
             // 
             // activateDockingModeToolStripMenuItem
             // 
             activateDockingModeToolStripMenuItem.Name = "activateDockingModeToolStripMenuItem";
-            activateDockingModeToolStripMenuItem.Size = new Size(270, 32);
-            activateDockingModeToolStripMenuItem.Text = "Activate Docking Mode";
+            activateDockingModeToolStripMenuItem.Size = new Size(265, 32);
+            activateDockingModeToolStripMenuItem.Text = "Enable Docking Mode";
             activateDockingModeToolStripMenuItem.Click += activateDockingModeToolStripMenuItem_Click;
             // 
             // quitToolStripMenuItem
             // 
             quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            quitToolStripMenuItem.Size = new Size(270, 32);
+            quitToolStripMenuItem.Size = new Size(265, 32);
             quitToolStripMenuItem.Text = "Quit";
             quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
+            // 
+            // disableDockingModeToolStripMenuItem
+            // 
+            disableDockingModeToolStripMenuItem.Name = "disableDockingModeToolStripMenuItem";
+            disableDockingModeToolStripMenuItem.Size = new Size(265, 32);
+            disableDockingModeToolStripMenuItem.Text = "Disable Docking Mode";
+            disableDockingModeToolStripMenuItem.Click += disableDockingModeToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -86,5 +94,6 @@
         private ContextMenuStrip contextMenuStrip1;
         private ToolStripMenuItem activateDockingModeToolStripMenuItem;
         private ToolStripMenuItem quitToolStripMenuItem;
+        private ToolStripMenuItem disableDockingModeToolStripMenuItem;
     }
 }

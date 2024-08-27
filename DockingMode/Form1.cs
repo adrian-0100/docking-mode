@@ -23,7 +23,11 @@ namespace DockingMode
         {
             DisableLidCloseSleep();
             MessageBox.Show("Docking Mode Activated");
-            //logic to activate docking mode
+        }
+        private void disableDockingModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EnableLidCloseSleep();
+            MessageBox.Show("Docking Mode Deactivated");
         }
 
 
@@ -72,5 +76,44 @@ namespace DockingMode
             }
         }
 
+        private void EnableLidCloseSleep()
+        {
+            try
+            {
+                // Change the action when closing the lid: when plugged into AC
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "powercfg.exe",
+                    Arguments = "/SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION 1",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                });
+
+                // Change the action when closing the lid: when on battery
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "powercfg.exe",
+                    Arguments = "/SETDCVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION 1",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                });
+
+                // Apply the changes
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "powercfg.exe",
+                    Arguments = "/SETACTIVE SCHEME_CURRENT",
+                    RedirectStandardOutput = true,
+                    UseShellExecute = false,
+                    CreateNoWindow = true
+                });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to deactivate Docking Mode: " + ex.Message);
+            }
+        }
     }
 }
