@@ -33,8 +33,8 @@
             notifyIcon1 = new NotifyIcon(components);
             contextMenuStrip1 = new ContextMenuStrip(components);
             activateDockingModeToolStripMenuItem = new ToolStripMenuItem();
-            quitToolStripMenuItem = new ToolStripMenuItem();
             disableDockingModeToolStripMenuItem = new ToolStripMenuItem();
+            quitToolStripMenuItem = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -51,7 +51,7 @@
             contextMenuStrip1.Items.AddRange(new ToolStripItem[] { activateDockingModeToolStripMenuItem, disableDockingModeToolStripMenuItem, quitToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
             contextMenuStrip1.Size = new Size(266, 133);
-            contextMenuStrip1.Opening += contextMenuStrip1_Opening;
+            //contextMenuStrip1.Opening += contextMenuStrip1_Opening;
             // 
             // activateDockingModeToolStripMenuItem
             // 
@@ -60,19 +60,19 @@
             activateDockingModeToolStripMenuItem.Text = "Enable Docking Mode";
             activateDockingModeToolStripMenuItem.Click += activateDockingModeToolStripMenuItem_Click;
             // 
-            // quitToolStripMenuItem
-            // 
-            quitToolStripMenuItem.Name = "quitToolStripMenuItem";
-            quitToolStripMenuItem.Size = new Size(265, 32);
-            quitToolStripMenuItem.Text = "Quit";
-            quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
-            // 
             // disableDockingModeToolStripMenuItem
             // 
             disableDockingModeToolStripMenuItem.Name = "disableDockingModeToolStripMenuItem";
             disableDockingModeToolStripMenuItem.Size = new Size(265, 32);
             disableDockingModeToolStripMenuItem.Text = "Disable Docking Mode";
             disableDockingModeToolStripMenuItem.Click += disableDockingModeToolStripMenuItem_Click;
+            // 
+            // quitToolStripMenuItem
+            // 
+            quitToolStripMenuItem.Name = "quitToolStripMenuItem";
+            quitToolStripMenuItem.Size = new Size(265, 32);
+            quitToolStripMenuItem.Text = "Quit";
+            quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
             // 
             // Form1
             // 
