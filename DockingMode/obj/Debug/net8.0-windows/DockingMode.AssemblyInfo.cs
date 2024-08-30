@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DockingMode")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3662fe9449f7e58e7e425f0640146132f66b7d11")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f4ecb3fcce5bc056fa14249c7f95dbaae79dd9fb")]
 [assembly: System.Reflection.AssemblyProductAttribute("DockingMode")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DockingMode")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
