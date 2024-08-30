@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-
 namespace DockingMode
 {
     public partial class Form1 : Form
@@ -35,11 +34,41 @@ namespace DockingMode
         {
             InitializeComponent();
             CheckDockingModeStatus();
+            notifyIcon1.MouseClick += NotifyIcon1_MouseClick;
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             this.Hide();
+        }
+
+        private async void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                await ToggleDockingMode();
+            }
+        }
+
+        private async Task ToggleDockingMode()
+        {
+            var (lidActionAC, lidActionDC) = await GetLidActionValues();
+            bool isDockingModeActive = (lidActionAC == 0 && lidActionDC == 0);
+
+            if (isDockingModeActive)
+            {
+                await SetLidCloseAction(1); // Deactivate
+                notifyIcon1.Text = "Docking Mode: Disabled";
+                MessageBox.Show("Docking Mode Deactivated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                await SetLidCloseAction(0); // Activate
+                notifyIcon1.Text = "Docking Mode: Enabled";
+                MessageBox.Show("Docking Mode Activated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            await CheckDockingModeStatus();
         }
 
         private async Task CheckDockingModeStatus()
@@ -51,6 +80,8 @@ namespace DockingMode
 
                 activateDockingModeToolStripMenuItem.Checked = isDockingModeActive;
                 disableDockingModeToolStripMenuItem.Checked = !isDockingModeActive;
+
+                notifyIcon1.Text = isDockingModeActive ? "Docking Mode: Enabled" : "Docking Mode: Disabled";
             }
             catch (Exception ex)
             {
