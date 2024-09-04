@@ -1,11 +1,13 @@
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DockingMode
 {
     public partial class Form1 : Form
     {
-        // Import functions from PowrProf.dll
         private static class NativeMethods
         {
             [DllImport("PowrProf.dll", CharSet = CharSet.Unicode)]
@@ -26,20 +28,20 @@ namespace DockingMode
                 out uint AcValueIndex);
         }
 
-        // Necessary GUIDs
         private static readonly Guid GUID_SYSTEM_BUTTON_SUBGROUP = new Guid("4f971e89-eebd-4455-a8de-9e59040e7347");
         private static readonly Guid GUID_LIDACTION = new Guid("5ca83367-6e45-459f-a27b-476b1d01c936");
 
         public Form1()
         {
             InitializeComponent();
-            CheckDockingModeStatus();
             notifyIcon1.MouseClick += NotifyIcon1_MouseClick;
+            Load += Form1_Load;
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private async void Form1_Load(object sender, EventArgs e)
         {
-            this.Hide();
+            Hide();
+            await CheckDockingModeStatus();
         }
 
         private async void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -53,22 +55,18 @@ namespace DockingMode
         private async Task ToggleDockingMode()
         {
             var (lidActionAC, lidActionDC) = await GetLidActionValues();
-            bool isDockingModeActive = (lidActionAC == 0 && lidActionDC == 0);
+            bool isDockingModeActive = lidActionAC == 0 && lidActionDC == 0;
 
-            if (isDockingModeActive)
-            {
-                await SetLidCloseAction(1); // Deactivate
-                notifyIcon1.Text = "Docking Mode: Disabled";
-                MessageBox.Show("Docking Mode Deactivated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                await SetLidCloseAction(0); // Activate
-                notifyIcon1.Text = "Docking Mode: Enabled";
-                MessageBox.Show("Docking Mode Activated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-
+            await SetLidCloseAction(isDockingModeActive ? 1 : 0);
+            UpdateNotifyIconText(!isDockingModeActive);
             await CheckDockingModeStatus();
+
+            MessageBox.Show(
+                isDockingModeActive ? "Docking Mode Deactivated" : "Docking Mode Activated",
+                "Success",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information
+            );
         }
 
         private async Task CheckDockingModeStatus()
@@ -76,17 +74,22 @@ namespace DockingMode
             try
             {
                 var (lidActionAC, lidActionDC) = await GetLidActionValues();
-                bool isDockingModeActive = (lidActionAC == 0 && lidActionDC == 0);
+                bool isDockingModeActive = lidActionAC == 0 && lidActionDC == 0;
 
                 activateDockingModeToolStripMenuItem.Checked = isDockingModeActive;
                 disableDockingModeToolStripMenuItem.Checked = !isDockingModeActive;
 
-                notifyIcon1.Text = isDockingModeActive ? "Docking Mode: Enabled" : "Docking Mode: Disabled";
+                UpdateNotifyIconText(isDockingModeActive);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to check Docking Mode status: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void UpdateNotifyIconText(bool isDockingModeActive)
+        {
+            notifyIcon1.Text = isDockingModeActive ? "Docking Mode: Enabled" : "Docking Mode: Disabled";
         }
 
         private async Task<(uint AC, uint DC)> GetLidActionValues()
@@ -143,19 +146,19 @@ namespace DockingMode
 
         private void ExecutePowercfgCommand(string arguments)
         {
-            using (var process = new Process())
+            using var process = new Process
             {
-                process.StartInfo = new ProcessStartInfo
+                StartInfo = new ProcessStartInfo
                 {
                     FileName = "powercfg.exe",
                     Arguments = arguments,
                     RedirectStandardOutput = true,
                     UseShellExecute = false,
                     CreateNoWindow = true
-                };
-                process.Start();
-                process.WaitForExit();
-            }
+                }
+            };
+            process.Start();
+            process.WaitForExit();
         }
     }
 }
