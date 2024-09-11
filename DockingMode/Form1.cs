@@ -130,17 +130,26 @@ namespace DockingMode
         {
             try
             {
-                await Task.Run(() =>
-                {
-                    ExecutePowercfgCommand($"/SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION {action}");
-                    ExecutePowercfgCommand($"/SETDCVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION {action}");
-                    ExecutePowercfgCommand("/SETACTIVE SCHEME_CURRENT");
-                });
+                await Task.Run(() => ApplyPowerSettings(action));
             }
             catch (Exception ex)
             {
                 string mode = action == 0 ? "activate" : "deactivate";
                 MessageBox.Show($"Failed to {mode} Docking Mode: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ApplyPowerSettings(int action)
+        {
+            string[] commands = {
+        $"/SETACVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION {action}",
+        $"/SETDCVALUEINDEX SCHEME_CURRENT SUB_BUTTONS LIDACTION {action}",
+        "/SETACTIVE SCHEME_CURRENT"
+        };
+
+            foreach (var command in commands)
+            {
+                ExecutePowercfgCommand(command);
             }
         }
 
