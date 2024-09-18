@@ -58,15 +58,9 @@ namespace DockingMode
             bool isDockingModeActive = lidActionAC == 0 && lidActionDC == 0;
 
             await SetLidCloseAction(isDockingModeActive ? 1 : 0);
-            UpdateNotifyIconText(!isDockingModeActive);
+            UpdateNotifyIcon(!isDockingModeActive);
             await CheckDockingModeStatus();
 
-            MessageBox.Show(
-                isDockingModeActive ? "Docking Mode Deactivated" : "Docking Mode Activated",
-                "Success",
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Information
-            );
         }
 
         private async Task CheckDockingModeStatus()
@@ -79,7 +73,7 @@ namespace DockingMode
                 activateDockingModeToolStripMenuItem.Checked = isDockingModeActive;
                 disableDockingModeToolStripMenuItem.Checked = !isDockingModeActive;
 
-                UpdateNotifyIconText(isDockingModeActive);
+                UpdateNotifyIcon(isDockingModeActive);
             }
             catch (Exception ex)
             {
@@ -87,10 +81,29 @@ namespace DockingMode
             }
         }
 
-        private void UpdateNotifyIconText(bool isDockingModeActive)
+        private void UpdateNotifyIcon(bool isDockingModeActive)
         {
             notifyIcon1.Text = isDockingModeActive ? "Docking Mode: Enabled" : "Docking Mode: Disabled";
+
+            // Use the correct resource path based on the project namespace and file names
+            string iconResourceName = isDockingModeActive ? "DockingMode.enabledIcon.ico" : "DockingMode.disabledIcon.ico"; // Replace 'DockingMode' with your actual namespace if different
+
+
+            // Load the icon from the embedded resources
+            using (var stream = GetType().Assembly.GetManifestResourceStream(iconResourceName))
+            {
+                if (stream != null)
+                {
+                    notifyIcon1.Icon = new Icon(stream);
+                }
+                else
+                {
+                    MessageBox.Show($"Unable to find the icon resource: {iconResourceName}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
+
+
 
         private async Task<(uint AC, uint DC)> GetLidActionValues()
         {
@@ -111,14 +124,12 @@ namespace DockingMode
         {
             await SetLidCloseAction(0);
             await CheckDockingModeStatus();
-            MessageBox.Show("Docking Mode Activated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private async void disableDockingModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             await SetLidCloseAction(1);
             await CheckDockingModeStatus();
-            MessageBox.Show("Docking Mode Deactivated", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void quitToolStripMenuItem_Click(object sender, EventArgs e)

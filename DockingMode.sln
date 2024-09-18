@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35219.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DockingMode", "DockingMode\DockingMode.csproj", "{CE4BA826-4A73-4053-9C1E-A3F78029F75F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DockingMode", "DockingMode\DockingMode.csproj", "{CE4BA826-4A73-4053-9C1E-A3F78029F75F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Elementos de la solución", "Elementos de la solución", "{3400DD0A-9C48-4FC5-A116-8F96833B5129}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\Desktop\disabledIcon.ico = ..\..\..\Desktop\disabledIcon.ico
+		..\..\..\Desktop\enabledIcon.ico = ..\..\..\Desktop\enabledIcon.ico
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
