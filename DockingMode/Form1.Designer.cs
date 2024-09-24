@@ -35,6 +35,7 @@
             activateDockingModeToolStripMenuItem = new ToolStripMenuItem();
             disableDockingModeToolStripMenuItem = new ToolStripMenuItem();
             quitToolStripMenuItem = new ToolStripMenuItem();
+            runOnStartToolStripMenuItem = new ToolStripMenuItem();
             contextMenuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -48,9 +49,9 @@
             // contextMenuStrip1
             // 
             contextMenuStrip1.ImageScalingSize = new Size(24, 24);
-            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { activateDockingModeToolStripMenuItem, disableDockingModeToolStripMenuItem, quitToolStripMenuItem });
+            contextMenuStrip1.Items.AddRange(new ToolStripItem[] { activateDockingModeToolStripMenuItem, disableDockingModeToolStripMenuItem, runOnStartToolStripMenuItem, quitToolStripMenuItem });
             contextMenuStrip1.Name = "contextMenuStrip1";
-            contextMenuStrip1.Size = new Size(266, 100);
+            contextMenuStrip1.Size = new Size(266, 165);
             // 
             // activateDockingModeToolStripMenuItem
             // 
@@ -73,6 +74,12 @@
             quitToolStripMenuItem.Text = "Quit";
             quitToolStripMenuItem.Click += quitToolStripMenuItem_Click;
             // 
+            // runOnStartToolStripMenuItem
+            // 
+            runOnStartToolStripMenuItem.Name = "runOnStartToolStripMenuItem";
+            runOnStartToolStripMenuItem.Size = new Size(265, 32);
+            runOnStartToolStripMenuItem.Text = "Run on Start";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -94,5 +101,6 @@
         private ToolStripMenuItem activateDockingModeToolStripMenuItem;
         private ToolStripMenuItem quitToolStripMenuItem;
         private ToolStripMenuItem disableDockingModeToolStripMenuItem;
+        private ToolStripMenuItem runOnStartToolStripMenuItem;
     }
 }

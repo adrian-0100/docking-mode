@@ -1,3 +1,4 @@
+using Microsoft.Win32;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
@@ -29,6 +30,10 @@ namespace DockingMode
         private static readonly Guid GUID_SYSTEM_BUTTON_SUBGROUP = new Guid("4f971e89-eebd-4455-a8de-9e59040e7347");
         private static readonly Guid GUID_LIDACTION = new Guid("5ca83367-6e45-459f-a27b-476b1d01c936");
 
+        // Registry key for run on start
+        private const string RunRegistryKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+        private const string AppName = "DockingMode";
+
         public Form1()
         {
             InitializeComponent();
@@ -40,6 +45,7 @@ namespace DockingMode
         {
             Hide();
             await CheckDockingModeStatus();
+            UpdateRunOnStartMenuItem();
         }
 
         private async void NotifyIcon1_MouseClick(object sender, MouseEventArgs e)
@@ -177,6 +183,34 @@ namespace DockingMode
             };
             process.Start();
             process.WaitForExit();
+        }
+
+        // New method for Run on Start menu item
+        private void runOnStartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+            menuItem.Checked = !menuItem.Checked;
+            SetRunOnStart(menuItem.Checked);
+        }
+
+        private void SetRunOnStart(bool enable)
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(RunRegistryKey, true);
+            if (enable)
+            {
+                rk.SetValue(AppName, Application.ExecutablePath);
+            }
+            else
+            {
+                rk.DeleteValue(AppName, false);
+            }
+        }
+
+        private void UpdateRunOnStartMenuItem()
+        {
+            RegistryKey rk = Registry.CurrentUser.OpenSubKey(RunRegistryKey, false);
+            bool isRunOnStartEnabled = rk.GetValue(AppName) != null;
+            runOnStartToolStripMenuItem.Checked = isRunOnStartEnabled;
         }
     }
 }
